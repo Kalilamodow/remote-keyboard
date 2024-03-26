@@ -154,29 +154,3 @@ class Server:
         self.socket.close()
         print("Socket closed")
         print("\nExited successfully")
-
-
-class Request:
-    _kv: list[tuple[str, str]] = {}
-
-    def __init__(self, req: str | dict) -> None:
-        if type(req) is str:
-            self._kv = Request.load(req)
-        elif type(req) is dict:
-            self._kv = [(k, v) for k, v in req.items()]
-
-        print(self._kv)
-
-    def get(self, key):
-        return [v for k, v in self._kv if k == key][0]
-
-    def __str__(self) -> str:
-        return "\n".join([f"{k}:{v}" for k, v in self._kv])
-
-    @staticmethod
-    def load(asstr: str):
-        kvp_strings: list[str] = asstr.split("\n")
-        kvs: list[tuple[str, str]] = [
-            (k, v) for k, v in [kv.split(":") for kv in kvp_strings]
-        ]
-        return kvs
